@@ -4,7 +4,11 @@ class usuarios{
 		public function loginUser($datos){
 			$c=new conectar();
 			$conexion=$c->conexion();
-           
+            
+			//datos de inicio de sesion
+			$_SESSION['rol']=self::rol($datos);
+			$_SESSION['username']=$datos[0];
+
 
 			// $_SESSION['usuario']=$datos[0];
 			// $_SESSION['password']=$datos[1];
@@ -21,16 +25,13 @@ class usuarios{
 				return 0;
 			}
 		}
-		public function traeID($datos){
+		public function rol($datos){
 			$c=new conectar();
 			$conexion=$c->conexion();
-
-			$password=sha1($datos[1]);
-
-			$sql="SELECT id_usuario 
-					from usuarios 
-					where email='$datos[0]'
-					and password='$password'"; 
+			$sql="SELECT Enabled
+					from user 
+					where FullName='$datos[0]'
+					and Email='$datos[1]'"; 
 			$result=mysqli_query($conexion,$sql);
 
 			return mysqli_fetch_row($result)[0];
