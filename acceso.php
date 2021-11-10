@@ -1,5 +1,43 @@
 <?php
 session_start();
+$rol=null;
+$roles =null;
+//Validacion de usuario
+if($_SESSION['username']){}
+else{
+	header("location:index.php");
+}
+
+//CONEXION A LA BASE DE DATOS PARA CONOCER LOS USUARIOS SUPERADMIN
+
+require_once "conections/BaseDatos.php";
+			$c= new conectar();
+			$conexion=$c->conexion();
+			$sqlAdmin="SELECT FullName FROM user INNER JOIN setup ON user.UserID = setup.SuperAdmin";
+			$super=mysqli_query($conexion,$sqlAdmin);
+            while ($superAdmin=mysqli_fetch_row($super)){
+                if($superAdmin[0] == $_SESSION['username']){
+                $roles=2;
+                }
+            }
+//CONDICIONAL PARA CREAR LA VARIABLE CON EL VALOR DE ROL
+
+
+    if(isset($_SESSION['rol'])){
+
+        if(($_SESSION['rol']==0) && ($roles==2)){
+            echo "superAdmin";
+            $rol=2;
+        }else{
+            if($_SESSION['rol']==0){
+                $rol =0;
+                echo "registrado";
+            }else{
+                $rol=1;
+                echo "autorizado";
+            }
+        }
+    }
 ?>
 
 <html lang="en">
@@ -15,9 +53,14 @@ session_start();
 <body>
 <div class="container container-acceso">
 <div class="header-name">Gestion de Comercio</div>    
-<button type="button" class="bot-acces">Articulos</button>
-<button type="button" class="bot-acces">Usuarios</button>
-<button type="button" class="bot-acces botBack" onclick="location.href='index.php'">Volver</button>
+<button type="button" class="bot-acces" onclick="location.href='views/articulos.php'">Articulos</button>
+
+<?php
+if(($rol!=1) && ($rol!=0)): ?>
+    <?php echo "<button type='button' class='bot-acces'>Usuarios</button>" ?>
+<?php endif ?>
+<button type="button" class="btn btn-danger botBack" onclick="location.href='exit.php'">Volver</button>
+
 
 </div>
 </body>

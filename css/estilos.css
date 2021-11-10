@@ -1,4 +1,4 @@
-.container-acceso{
+ .container-acceso{
     width: 50%;
     height: 70%;
     background-color: rgb(255, 255, 255);
@@ -22,22 +22,15 @@
     cursor: pointer;
 
 }
-.botBack{
-    position: absolute;
-    bottom: 20px;
-    width: auto;
-    background-color: rgb(39, 36, 36);
-    font-size: 15px;
-    padding: 10px;
-    cursor: pointer;
-}
+
 body{
+    position: relative;
     margin-top: 100px;
     background: #FFA17F;  /* fallback for old browsers */
 background: -webkit-linear-gradient(to right, #00223E, #FFA17F);  /* Chrome 10-25, Safari 5.1-6 */
 background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
+
 .header-name{
     position: absolute;
     top: 0;
@@ -48,4 +41,66 @@ background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, F
     font-size: 22px;
     padding: 15px;
     color: white;
+}
+.ventana-saludo{
+    position: relative;
+    height: 35%;
+}
+/* BOTONES VENTANAS */
+.botBack{
+    position: absolute;
+    border-radius: 3px;
+    bottom: 20px;
+    width: auto;
+    font-size: 15px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.continuar{
+    color: white;
+    font-size: 13px;
+    position: absolute;
+    right: 50%;
+    transform: translateX(50%); 
+    background-color: rgb(29, 29, 29);
+    padding: 8px;
+    border-radius: 3px;
+    margin-top: 30px;
+   
+}
+.continuar:hover{
+    text-decoration: none;
+    background-color: rgb(65, 62, 62);
+    color: white;
+}
+.btn:hover{
+    background-color: rgb(65, 62, 62);
+}
+.td-white{
+    background-color: white;
+}
+.titulo-seccion{
+    color: white;
+    margin-left: 3%;
+    font-size: 30px;
+}
+
+.contSA{
+    width: auto;
+    height: auto;
+    color: black;
+    margin: 20px;
+    font-size: 20px;
+} 
+
+.botPosition{
+    position: absolute;
+    left: 50px;
+    bottom: 40px;
+}
+.botCrear{
+    position: absolute;
+    bottom: 40px;
+    right: 50px;
 }

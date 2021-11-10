@@ -6,13 +6,10 @@ class usuarios{
 			$conexion=$c->conexion();
             
 			//datos de inicio de sesion
-			$_SESSION['rol']=self::rol($datos);
+			$_SESSION['rol']=self::rol($datos);			
 			$_SESSION['username']=$datos[0];
 
-
-			// $_SESSION['usuario']=$datos[0];
-			// $_SESSION['password']=$datos[1];
-
+			
 			$sql="SELECT * 
 					from user 
 				where FullName='$datos[0]'
@@ -35,8 +32,7 @@ class usuarios{
 			$result=mysqli_query($conexion,$sql);
 
 			return mysqli_fetch_row($result)[0];
-		}
-
+		}	
 		public function obtenDatosUsuario($idusuario){
 
 			$c=new conectar();
