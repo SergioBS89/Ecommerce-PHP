@@ -8,6 +8,12 @@ if($_SESSION['username']){}
 else{
 header("location:../index.php");
 }
+
+//VARIABLES CON LAS ACCIONES CREAR-MODIFICAR-ELIMINAR
+
+$crear="Crear";
+$modificar="Modificar";
+$eliminar="Eliminar";
 		   
 		
 //CONEXION A LA BASE DE DATOS PARA CONOCER LOS USUARIOS SUPERADMIN
@@ -48,9 +54,9 @@ if($_SESSION['rol']==0){
 			$conexion=$co->conexion();		
             
 			//PARA OBTENER EL NUMERO DE REGISTROS TOTALES
-			$sqlTotalRegistros="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID";
-			$result=mysqli_query($conexion,$sqlTotalRegistros);
-            $numFilas=mysqli_num_rows($result);
+			$obje=new Productos();
+			$numFilas = ( $obje->obtenerProductos());
+			
            
 			$pagina =1;
 			$mostrar=10;
@@ -75,28 +81,28 @@ if($_SESSION['rol']==0){
     <title>Document</title>
 </head>
 <body>
-    <?php echo "HOLAAAA $totPaginas and $rol"; ?> 
-	<button class="btn-lg btn-primary botCrear">Crear nuevo producto</button>
+    <!-- <?php echo "HOLAAAA $totPaginas and $rol"; ?>  -->
+
  <table class="table table-bordered table-active" style="text-align: center;">
 	<caption><label class="titulo-seccion">Articulos</label></caption>
 	<tr>
-		<td class="bg-primary"><button name="bot" value="" id="boNombre" class="btn btn-primary">ID</button></td>
-		<td class="bg-primary"><button name="bot" value="" id="boNombre" class="btn btn-primary">Categoria</button></td>
-		<td class="bg-primary"><button name="boNombre" value="" id="boNombre" class="btn btn-primary">Nombre</button></td>
-		<td class="bg-primary"><button name="bot" value="" id="boNombre" class="btn btn-primary">Coste</button></td>
-		<td class="bg-primary"><button name="bot" value="" id="boNombre" class="btn btn-primary">Precio</button></td>
+		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">ID</button></td>
+		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">Categoria</button></td>
+		<td class="bg-primary td-articulos"><button name="boNombre" value="" id="boNombre" class="btn btn-primary">Nombre</button></td>
+		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">Coste</button></td>
+		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">Precio</button></td>
 		<?php if($rol==2): ?>
 			<?php echo "
-		<td class='bg-primary'>Editar</td>
+		<td class='bg-primary centar-cabecera'> <h5>Editar</h5></td>
 		"?>
 		<?php endif ?>
 		<?php if($rol ==2): ?>
 			<?php echo"
-	    <td class='bg-primary'>Eliminar</td>"?>
+	    <td class='bg-primary centrar-cabecera'> <h5>Eliminar</h5></td>"?>
 		<?php endif ?>
 	</tr>
     <?php
-   
+  
 	while ($ver=mysqli_fetch_row($result)):
 	 ?>
 	 
@@ -106,20 +112,20 @@ if($_SESSION['rol']==0){
 		<td class="td-white"><?php echo $ver[1] ?></td>
 		<td class="td-white"><?php echo $ver[3] ?></td>
 		<td class="td-white"><?php echo $ver[4] ?></td>
-		<td class="td-white"><?php echo $ver[5] ?></td>
+		<td  class="td-white"><?php echo $ver[5] ?></td>
 		<?php if($rol ==2): ?>
-			<?php echo"
-		<td class='td-white editar'>
-			<span class='btn btn-warning btn-xs' data-toggle='modal' data-target='#actualizaCategoria'>
-				<span class='glyphicon glyphicon-pencil'></span>
+				<?php echo"
+		<td  class='td-white editar'>
+			<span class='btn btn-warning btn-xs'>
+				<a style='color: white;' class='glyphicon glyphicon-pencil' href='../formArticulos.php?upd=$ver[2]&accion=$modificar'></a>
 			</span>
 		</td>" ?>
 		<?php endif ?>
 		<?php if($rol==2): ?>
 			<?php echo "
 		<td class='td-white'>
-			<span class='btn btn-danger btn-xs' >
-				<span class='glyphicon glyphicon-remove'></span>
+			<span  class='btn btn-danger btn-xs' >			
+				<a style='color: white;' class='glyphicon glyphicon-remove' href='../formArticulos.php?upd=$ver[2]&accion=$eliminar'></a>
 			</span>
 		</td>" ?>
 		<?php endif ?>
@@ -127,6 +133,7 @@ if($_SESSION['rol']==0){
     <?php endwhile; 
     ?>
 </table>
+
 <nav aria-label="Page navigation example" style="text-align: center;">
   <ul class="pagination">
     <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
@@ -138,7 +145,10 @@ if($_SESSION['rol']==0){
     <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
   </ul>
 </nav> 
-<button type="button" class="botPosition btn-lg btn-primary" onclick="location.href='../acceso.php'">Volver</button>
+<button type="button" class="btn botPosition btn-lg btn-danger" onclick="location.href='../acceso.php'">Volver</button>
+<?php if(($rol==2)||($rol==1)) echo "
+<button class='btn btn-lg btn-primary botCrear'><a href='../formArticulos.php?upd=1&accion=Crear'>Crear nuevo producto</a> </button>"
+?>
 </body>
 
 <!-- PRUEBA DE POST -->
