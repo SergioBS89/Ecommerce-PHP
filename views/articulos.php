@@ -3,6 +3,7 @@
 session_start();
 $rol=null;
 $roles =null;
+
 // VALIDACION DE USUARIO
 if($_SESSION['username']){}
 else{
@@ -44,13 +45,41 @@ if($_SESSION['rol']==0){
 }
 }
 
-//PETICION A LA BASE DE DATOS PARA OBTENER LOS REGISTROS DE LOS ARTICULOS
-			
-      
-	//para mostrar los registros de los productos
+// ORDENAR LISTAS PRODUCTOS
+
+
+$obje=new Productos();
+$numFilas=$obje->obtenerRegistrosTotalesProductos();
+$result=($obje->ordenarListaProductosPorID());
+
+// VARIABLE PASADA POR URL CON ID DEL PRODUCTO
+if(isset($_GET['opcionOrden'])) {
+$opcionOrdenar=$_GET['opcionOrden'];
+
 	$obje=new Productos();
 	$numFilas=$obje->obtenerRegistrosTotalesProductos();
-	$result=$obje->mostrarProductosLimit();
+    switch ($opcionOrdenar){
+		
+			case 1:
+			$result=($obje->ordenarListaProductosPorID());
+			break;
+			case 2:
+			$result=($obje->ordenarListaProductosPorCategoria());
+			break;
+			case 3:
+			$result=($obje->ordenarListaProductosPorNombre());
+			break;
+			case 4:
+			$result=($obje->ordenarListaProductosPorCoste());
+			break;
+			case 5:
+			$result=($obje->ordenarListaProductosPorPrecio());
+			break;
+
+	}
+}
+
+
 	
 	$pagina =1;
 	$mostrar=10;
@@ -58,7 +87,7 @@ if($_SESSION['rol']==0){
 	// $inicioPaginas=($pagina - 1) * $totPaginas;
 	?>
 
-//
+
 			
 				 
 	
@@ -69,6 +98,7 @@ if($_SESSION['rol']==0){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.css">
+	
 	<script src="../libraries/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="../css/estilos.css"> 
     <title>Document</title>
@@ -79,11 +109,11 @@ if($_SESSION['rol']==0){
  <table class="table table-bordered table-active" style="text-align: center;">
 	<caption><label class="titulo-seccion">Articulos</label></caption>
 	<tr>
-		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">ID</button></td>
-		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">Categoria</button></td>
-		<td class="bg-primary td-articulos"><button name="boNombre" value="" id="boNombre" class="btn btn-primary">Nombre</button></td>
-		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">Coste</button></td>
-		<td class="bg-primary td-articulos"><button name="bot" value="" id="boNombre" class="btn btn-primary">Precio</button></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=1">Id</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=2">Categoria</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=3">Nombre</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=4">Coste</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=5">Precio</a></td>
 		<?php if($rol==2): ?>
 			<?php echo "
 		<td class='bg-primary centar-cabecera'> <h5>Editar</h5></td>
@@ -142,15 +172,12 @@ if($_SESSION['rol']==0){
 <?php if(($rol==2)||($rol==1)) echo "
 <button class='btn btn-lg btn-primary botCrear'><a href='../formArticulos.php?upd=1&accion=Crear'>Crear nuevo producto</a> </button>"
 ?>
+<script src="../funcion.js"></script>
+
 </body>
 
-<!-- PRUEBA DE POST -->
-<script>
-let valor ='hola vengo de js';
-</script>
-<?php 
-$var_php = "<script> document.writeln(valor); </script>";
-echo "$var_php";
-?>
-</html>
-  
+
+</html> 
+
+
+

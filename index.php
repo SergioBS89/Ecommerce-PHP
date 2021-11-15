@@ -24,7 +24,7 @@
 						<form id="frmLogin">
 							<label>Usuario</label>                          
 							<input type="text" class="form-control input-sm" name="usuario" id="usuario">
-							<label>Email</label>
+							<label style="margin-top: 5px;">Email</label>
 							<input type="email"class="form-control input-sm" name="email" id="email" >
                             <br>
                            
@@ -68,13 +68,15 @@ $.ajax({
         if(r==1){
             var saludo = document.getElementById('usuario').value;
             document.getElementById('saludo').innerHTML='Bienvenido ' + saludo;
-            document.getElementById('adelante').style.display='block'
+            document.getElementById('adelante').style.display='block'          
         }
         else{
             alert("No se ha podido acceder")
         }
     }
+   
 });
+
 });
     })
 </script> 

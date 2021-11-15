@@ -38,6 +38,7 @@ require_once "conections/BaseDatos.php";
             }
         }
     }
+
 ?>
 
 <html lang="en">
@@ -53,11 +54,11 @@ require_once "conections/BaseDatos.php";
 <body>
 <div class="container container-acceso">
 <div class="header-name">Gestion de Comercio</div>    
-<button type="button" class="bot-acces" onclick="location.href='views/articulos.php'">Articulos</button>
+<button type="button" class="btn btn-primary bot-acces" onclick="location.href='views/articulos.php'">Articulos</button>
 
 <?php
 if(($rol!=1) && ($rol!=0)): ?>
-    <?php echo "<button type='button' class='bot-acces'>Usuarios</button>" ?>
+    <?php echo "<button type='button' class=' btn btn-primary bot-acces'>Usuarios</button>" ?>
 <?php endif ?>
 <button type="button" class="btn btn-danger botBack" onclick="location.href='exit.php'">Volver</button>
 

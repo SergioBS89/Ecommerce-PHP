@@ -8,6 +8,7 @@ class usuarios{
 			//datos de inicio de sesion
 			$_SESSION['rol']=self::rol($datos);			
 			$_SESSION['username']=$datos[0];
+			$_SESSION['email']=$datos[1];
 
 			
 			$sql="SELECT * 
@@ -15,8 +16,10 @@ class usuarios{
 				where FullName='$datos[0]'
 				and Email='$datos[1]'";
 			$result=mysqli_query($conexion,$sql);
+			
 
-			if(mysqli_num_rows($result) > 0){
+			if(mysqli_num_rows($result) > 0){		
+			
 				return 1;
 			}else{
 				return 0;
@@ -33,6 +36,7 @@ class usuarios{
 
 			return mysqli_fetch_row($result)[0];
 		}	
+
 		public function obtenDatosUsuario($idusuario){
 
 			$c=new conectar();
@@ -56,6 +60,24 @@ class usuarios{
 						);
 
 			return $datos;
+		}
+		public function obtenerProductos(){
+
+			$c=new conectar();
+			$conexion=$c->conexion();
+            $sqlTotalRegistros="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID";
+			$result=mysqli_query($conexion,$sqlTotalRegistros);
+
+			$ver=mysqli_fetch_row($result);
+
+			$ver=array(
+						'id_usuario' => $ver[0],
+							'nombre' => $ver[1],
+							'apellido' => $ver[2],
+							'email' => $ver[3]
+						);
+
+			return $ver;
 		}
 
 		public function actualizaUsuario($datos){

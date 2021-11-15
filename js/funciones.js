@@ -10,3 +10,7 @@ function validarFormVacio(formulario){
 		}
 		return vacios;
 	}
+
+
+
+
