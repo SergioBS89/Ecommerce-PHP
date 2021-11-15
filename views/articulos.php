@@ -17,18 +17,16 @@ $eliminar="Eliminar";
 		   
 		
 //CONEXION A LA BASE DE DATOS PARA CONOCER LOS USUARIOS SUPERADMIN
+
 require_once "../conections/BaseDatos.php";
-$c= new conectar();
-$conexion=$c->conexion();
-$sqlAdmin="SELECT FullName FROM user INNER JOIN setup ON user.UserID = setup.SuperAdmin";
-$super=mysqli_query($conexion,$sqlAdmin);
+$objet=new usuarios();
+$super=($objet->superAdmin());
 while ($superAdmin=mysqli_fetch_row($super)){
 	if($superAdmin[0] == $_SESSION['username']){
 	$roles=2;
 	}
 }
 //CONDICIONAL PARA CREAR LA VARIABLE CON EL VALOR DE ROL
-
 
 if(isset($_SESSION['rol'])){
 
@@ -46,26 +44,21 @@ if($_SESSION['rol']==0){
 }
 }
 
-
-
-            //PETICION A LA BASE DE DATOS PARA OBTENER LOS REGISTROS DE LOS ARTICULOS
-			// require_once "../conections/BaseDatos.php";
-			$co= new conectar();
-			$conexion=$co->conexion();		
-            
-			//PARA OBTENER EL NUMERO DE REGISTROS TOTALES
-			$obje=new Productos();
-			$numFilas = ( $obje->obtenerProductos());
+//PETICION A LA BASE DE DATOS PARA OBTENER LOS REGISTROS DE LOS ARTICULOS
 			
-           
-			$pagina =1;
-			$mostrar=10;
-			$totPaginas=$numFilas/$mostrar;
-			$inicioPaginas=($pagina - 1) * $totPaginas;
-			$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID LIMIT $inicioPaginas,$mostrar";
-			$result=mysqli_query($conexion,$sqlLIMIT);
-			
-			?>
+      
+	//para mostrar los registros de los productos
+	$obje=new Productos();
+	$numFilas=$obje->obtenerRegistrosTotalesProductos();
+	$result=$obje->mostrarProductosLimit();
+	
+	$pagina =1;
+	$mostrar=10;
+	$totPaginas=$numFilas/$mostrar;
+	// $inicioPaginas=($pagina - 1) * $totPaginas;
+	?>
+
+//
 			
 				 
 	
