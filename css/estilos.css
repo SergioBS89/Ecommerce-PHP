@@ -37,7 +37,7 @@ background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, F
     border-radius: 3px;
     text-align:center;
     font-size: 22px;
-    padding: 15px;
+    padding: 10px;
     color: white;
 }
 .ventana-saludo{
@@ -124,6 +124,11 @@ padding: 6px;
     padding: 10px;
     margin: 0;
 }
+.btn-user{
+    padding: 10px;
+    margin-top: 30px;
+}
+
 .btn-accion h5{
     margin: 0;
 }
@@ -161,4 +166,25 @@ position: absolute;
 transform: translateX(-50%);
 left: 50%;
 margin-top: 20px;
+}
+
+.disabled {
+    pointer-events:none; /*This makes it not clickable */
+    opacity:0.6;         /*This grays it out to look disabled*/
+}
+.adminRed{
+    color: red;
+}
+.enabled{
+    display: flex;
+    align-items: center;
+    background-color: red;
+    font-size: small;
+}
+
+.botonOculto{
+    display: none;
+}
+.botonVisto{
+    display: block;
 }

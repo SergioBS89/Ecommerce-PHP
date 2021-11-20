@@ -1,4 +1,4 @@
-// POST PARA MODIFICAR
+// POST PARA MODIFICAR ARTICULOS
 
 $(document).ready(function(){
     $('#confirmarCambios').click(function(){
@@ -29,7 +29,7 @@ beforeSend: function () {
 })
 
 
-    // POST PARA LA TABLA DE CREAR
+    // POST PARA CREAR ARTICULOS
 
     $(document).ready(function(){
     $('#confirmarCambiosCrear').click(function(){
@@ -46,7 +46,7 @@ type:"POST",
 url:"crearPOST.php",
 data:datoCrear,
 beforeSend: function () {
-                    $("#resul").html("Procesando, espere por favor...");},
+                    $("#resultado").html("Procesando, espere por favor...");},
                     success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
                     $("#resul").html(response);
                     var activarVentana=document.getElementById('container-mensage')
@@ -60,7 +60,7 @@ beforeSend: function () {
 })
 
 
-// POST PARA LA TABLA DE ELIMINAR
+// POST PARA ELIMINAR ARTICULOS
 
 $(document).ready(function(){
     $('#confirmarEliminar').click(function(){
@@ -76,11 +76,105 @@ type:"POST",
 url:"eliminarPOST.php",
 data:datosEliminar,
 beforeSend: function () {
-                    $("#resultado3").html("Procesando, espere por favor...");},
+                    $("#resultado").html("Procesando, espere por favor...");},
                     success:  function (response) { 
+                        $("#resul").html(response);
                     var activarVentana=document.getElementById('container-mensage')
                         activarVentana.style.display='block'
-                        crear.style.display='none'		
+                        modificarEliminar.style.display='none'		
+            }
+
+});
+
+});
+})
+
+
+
+// POST PARA MODIFICAR USUARIOS
+
+$(document).ready(function(){
+    $('#confCambiosUser').click(function(){
+        vacios=validarFormVacio('frmUser');
+if(vacios > 0){
+alert("Debes llenar todos los campos!!");
+return false;
+}
+
+dato=$('#frmUser').serialize();
+
+$.ajax({
+type:"POST",
+url:"modificarPOST.php",
+data:dato,
+beforeSend: function () {
+                    $("#resultado").html("Procesando, espere por favor...");},
+                    success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                    $("#resultado").html(response);
+                    var activarVentana=document.getElementById('container-mensage')
+                        activarVentana.style.display='block'
+                        modificarEliminar.style.display='none'						
+}
+
+});
+
+});
+})
+
+
+    // POST PARA CREAR ARTICULOS
+
+    $(document).ready(function(){
+    $('#confCrearUser').click(function(){
+        vacios=validarFormVacio('frmCrearUser');
+if(vacios > 0){
+alert("Debes llenar todos los campos!!");
+return false;
+}
+
+datoCrear=$('#frmCrearUser').serialize();
+
+$.ajax({
+type:"POST",
+url:"crearPOST.php",
+data:dato,
+beforeSend: function () {
+                    $("#resultado").html("Procesando, espere por favor...");},
+                    success:  function (response) { //una vez que el archivo recibe el request lo procesa y lo devuelve
+                    $("#resul").html(response);
+                    var activarVentana=document.getElementById('container-mensage')
+                        activarVentana.style.display='block'
+                        crear.style.display='none'	
+                    }
+
+});
+
+});
+})
+
+
+// POST PARA ELIMINAR ARTICULOS
+
+$(document).ready(function(){
+    $('#confEliminarUser').click(function(){
+        vacios=validarFormVacio('frmUser');
+if(vacios > 0){
+
+}
+
+datosEliminar=$('#frmUser').serialize();
+
+$.ajax({
+type:"POST",
+url:"eliminarPOST.php",
+data:dato,
+beforeSend: function () {
+                    $("#resultado").html("Procesando, espere por favor...");},
+                    success:  function (response) { 
+                        $("#resul").html(response);
+                    var activarVentana=document.getElementById('container-mensage')
+                        activarVentana.style.display='block'
+                        modificarEliminar.style.display='none'		
             }
 
 });

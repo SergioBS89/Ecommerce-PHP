@@ -26,15 +26,12 @@ require_once "conections/BaseDatos.php";
     if(isset($_SESSION['rol'])){
 
         if(($_SESSION['rol']==0) && ($roles==2)){
-            echo "superAdmin";
-            $rol=2;
+            $rol=2;//USUARIO SUPERADMIN
         }else{
             if($_SESSION['rol']==0){
-                $rol =0;
-                echo "registrado";
+                $rol =0;//USUARIO REGISTRADO
             }else{
-                $rol=1;
-                echo "autorizado";
+                $rol=1;//USUARIOS AUTORIZADO
             }
         }
     }
@@ -53,16 +50,23 @@ require_once "conections/BaseDatos.php";
 </head>
 <body>
 <div class="container container-acceso">
-<div class="header-name">Gestion de Comercio</div>    
+<div class="header-name">Acceso de la gestión</div>    
 <button type="button" class="btn btn-primary bot-acces" onclick="location.href='views/articulos.php'">Articulos</button>
 
 <?php
 if(($rol!=1) && ($rol!=0)): ?>
-    <?php echo "<button type='button' class=' btn btn-primary bot-acces'>Usuarios</button>" ?>
+    <?php echo "<button type='button' class=' btn btn-primary bot-acces' id='locationUsuarios'>Usuarios</button>" ?>
 <?php endif ?>
 <button type="button" class="btn btn-danger botBack" onclick="location.href='exit.php'">Volver</button>
 
 
 </div>
+<!-- ACCEDER A LA SECCION USUARIOS  -->
+<script>
+   var locationUsuariosPhp= document.getElementById('locationUsuarios')
+   locationUsuariosPhp.addEventListener('click',()=>{
+       location.href='views/usuarios.php'
+   })
+</script>
 </body>
 </html>

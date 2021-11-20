@@ -12,7 +12,8 @@
 	// 
 
 	echo $obj->loginUser($datos);
+	$conectado=($obj->loginUser($datos));
 	$obj->lastAcces($datos);
-
+header("Location:index.php?usuario=$datos[0] & conectado=$conectado");
 
  ?>

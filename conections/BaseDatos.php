@@ -14,10 +14,6 @@
 			return $conexion;
 		}
 	}
-// $obj=new conectar();
-// if($obj->conexion()){
-//     echo "conectado";
-// };
 
  ?>
  <?php
@@ -31,20 +27,15 @@ class usuarios{
 			$c=new conectar();
 			$conexion=$c->conexion();
             
-			//datos de inicio de sesion
+			//datos para usar las varibales session
 			$_SESSION['rol']=self::rol($datos);			
 			$_SESSION['username']=$datos[0];
-			$_SESSION['email']=$datos[1];
+			$_SESSION['email']=$datos[1];	
 
-			
-			$sql="SELECT * 
-					from user 
-				where FullName='$datos[0]'
-				and Email='$datos[1]'";
+			$sql="SELECT * from user where FullName='$datos[0]'	and Email='$datos[1]'";
 			$result=mysqli_query($conexion,$sql);
-			
 
-			if(mysqli_num_rows($result) > 0){		
+			if(mysqli_num_rows($result) > 0){	
 			
 				return 1;
 			}else{
@@ -54,10 +45,7 @@ class usuarios{
 		public function rol($datos){
 			$c=new conectar();
 			$conexion=$c->conexion();
-			$sql="SELECT Enabled
-					from user 
-					where FullName='$datos[0]'
-					and Email='$datos[1]'"; 
+			$sql="SELECT Enabled from user where FullName='$datos[0]'and Email='$datos[1]'"; 
 			$result=mysqli_query($conexion,$sql);
 
 			return mysqli_fetch_row($result)[0];
@@ -76,52 +64,105 @@ class usuarios{
 	       return mysqli_query($conexion,$fecha);
 			
 		}
-
-		public function obtenDatosUsuario($idusuario){
+		public function obtenerRegistrosTotalesUsuarios(){
 
 			$c=new conectar();
 			$conexion=$c->conexion();
-
-			$sql="SELECT id_usuario,
-							nombre,
-							apellido,
-							email
-					from usuarios 
-					where id_usuario='$idusuario'";
-			$result=mysqli_query($conexion,$sql);
-
-			$ver=mysqli_fetch_row($result);
-
-			$datos=array(
-						'id_usuario' => $ver[0],
-							'nombre' => $ver[1],
-							'apellido' => $ver[2],
-							'email' => $ver[3]
-						);
-
-			return $datos;
+			$sqlTotalRegistros="SELECT * FROM user";
+			$result=mysqli_query($conexion,$sqlTotalRegistros);
+	
+			$numFilas=mysqli_num_rows($result);
+	
+			return $numFilas;
 		}
-		
-
-		public function actualizaUsuario($datos){
+	
+		public function ordenarListaUsuariosPorID($dato1,$dato2){
 			$c=new conectar();
 			$conexion=$c->conexion();
-
-			$sql="UPDATE usuarios set nombre='$datos[1]',
-									apellido='$datos[2]',
-									email='$datos[3]'
-						where id_usuario='$datos[0]'";
+			$sqlLIMIT="SELECT UserID,Email,FullName, DATE_FORMAT(LastAccess, '%d-%m-%y'),Enabled FROM user LIMIT $dato1,$dato2";
+			
+			return mysqli_query($conexion,$sqlLIMIT);
+			
+			}
+			public function ordenarListaUsuariosPorNombre($dato1,$dato2){
+				$c=new conectar();
+				$conexion=$c->conexion();
+				$sqlLIMIT="SELECT UserID,Email,FullName, DATE_FORMAT(LastAccess, '%d-%m-%y'),Enabled FROM user ORDER BY FullName LIMIT $dato1,$dato2";
+				
+				return mysqli_query($conexion,$sqlLIMIT);
+				
+				}
+				public function ordenarListaUsuariosPorEmail($dato1,$dato2){
+					$c=new conectar();
+					$conexion=$c->conexion();
+					$sqlLIMIT="SELECT UserID,Email,FullName, DATE_FORMAT(LastAccess, '%d-%m-%y'),Enabled FROM user  ORDER BY Email LIMIT $dato1,$dato2";
+					
+					return mysqli_query($conexion,$sqlLIMIT);
+					
+					}
+					public function ordenarListaUsuariosPorFecha($dato1,$dato2){
+						$c=new conectar();
+						$conexion=$c->conexion();
+						$sqlLIMIT="SELECT UserID,Email,FullName, DATE_FORMAT(LastAccess, '%d-%m-%y'),Enabled FROM user  ORDER BY LastAccess LIMIT $dato1,$dato2";
+						
+						return mysqli_query($conexion,$sqlLIMIT);
+						
+						}
+						public function ordenarListaUsuariosPorEnabled($dato1,$dato2){
+							$c=new conectar();
+							$conexion=$c->conexion();
+							$sqlLIMIT="SELECT UserID,Email,FullName, DATE_FORMAT(LastAccess, '%d-%m-%y'),Enabled FROM user  ORDER BY Enabled LIMIT $dato1,$dato2";
+							
+							return mysqli_query($conexion,$sqlLIMIT);
+							
+							}
+							public function mostrarUsuarioModificarEliminar($idUsuario){
+								$c= new conectar();
+								$conexion=$c->conexion();
+								$usuario="SELECT UserID,Email,FullName,DATE_FORMAT(LastAccess,'%d-%m-%y'),Enabled  FROM user where UserID =$idUsuario";
+								$result=mysqli_query($conexion,$usuario);
+								return $result;
+							}
+			
+		
+	
+		public function actualizarUsuario($datos){
+			$c=new conectar();
+			$conexion=$c->conexion();
+	
+			$sql="UPDATE user set FullName='$datos[1]',
+									Email='$datos[2]',
+									LastAccess='$datos[3]',
+									Enabled='$datos[4]'
+								
+						where UserID='$datos[0]'";
 			return mysqli_query($conexion,$sql);	
 		}
 
-		public function eliminaUsuario($idusuario){
+		public function eliminarUsuario($idusuario){
 			$c=new conectar();
 			$conexion=$c->conexion();
 
-			$sql="DELETE from usuarios 
-					where id_usuario='$idusuario'";
+			$sql="DELETE from user
+					where UserID='$idusuario'";
 			return mysqli_query($conexion,$sql);
 		}
+		public function crearUsuario($datos){
+			$co=new conectar();
+			$conexion=$co->conexion();
+			$sql="INSERT into user (
+								FullName,
+								Email,
+								LastAccess,
+								Enabled)
+						values ('$datos[1]',
+								'$datos[2]',
+								'$datos[3]',
+								'$datos[4]')";
+			return mysqli_query($conexion,$sql);
+		}
+		
+	   
 	}
 
  ?>
@@ -129,32 +170,7 @@ class usuarios{
  <?php 
  class Productos{
 
-	public function obtenerRegistrosTotalesProductos(){
-
-		$c=new conectar();
-		$conexion=$c->conexion();
-		$sqlTotalRegistros="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID";
-		$result=mysqli_query($conexion,$sqlTotalRegistros);
-
-		$numFilas=mysqli_num_rows($result);
-
-		return $numFilas;
-	}
-    public function mostrarProductosLimit(){
-		
-		$c=new conectar();
-		$conexion=$c->conexion();
-		$pagina =1;
-		$mostrar=10;
-		$numFilas =self::obtenerRegistrosTotalesProductos();
-		$totPaginas=$numFilas/$mostrar;
-		$inicioPaginas=($pagina - 1) * $totPaginas;
-		$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID LIMIT $inicioPaginas,$mostrar";
-		$result=mysqli_query($conexion,$sqlLIMIT);
 	
-		return $result;
-			
-	}
 	public function mostrarProductoModificarEliminar($idArticulo){
 		$c= new conectar();
         $conexion=$c->conexion();
@@ -165,7 +181,7 @@ class usuarios{
 	public function mostrarOptionsSelect(){
 		$c= new conectar();
 		$conexion=$c->conexion();
-		$option="SELECT name, CategoryID FROM category";
+		$option="SELECT Name, CategoryID FROM category";
 		$result=mysqli_query($conexion,$option);
 		return $result;
 	}
@@ -202,67 +218,56 @@ class usuarios{
 					where ProductID ='$datos[0]'";
 			return mysqli_query($conexion,$sql);
 		}
-		public function ordenarListaProductosPorID(){
-        $c=new conectar();
-		$conexion=$c->conexion();
-		$pagina =1;
-		$mostrar=10;
-		$numFilas =self::obtenerRegistrosTotalesProductos();
-		$totPaginas=$numFilas/$mostrar;
-		$inicioPaginas=($pagina - 1) * $totPaginas;
-		$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID LIMIT $inicioPaginas,$mostrar";
-		return mysqli_query($conexion,$sqlLIMIT);
-		
-		}
-		public function ordenarListaProductosPorCategoria(){
+		public function obtenerRegistrosTotalesProductos(){
 
 			$c=new conectar();
 			$conexion=$c->conexion();
-			$pagina =1;
-			$mostrar=10;
-			$numFilas =self::obtenerRegistrosTotalesProductos();
-			$totPaginas=$numFilas/$mostrar;
-			$inicioPaginas=($pagina - 1) * $totPaginas;
-			$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by category.Name LIMIT $inicioPaginas,$mostrar";
+			$sqlTotalRegistros="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID";
+			$result=mysqli_query($conexion,$sqlTotalRegistros);
+	
+			$numFilas=mysqli_num_rows($result);
+	
+			return $numFilas;
+		}
+	   
+		public function ordenarListaProductosPorID($dato1,$dato2){
+        $c=new conectar();
+		$conexion=$c->conexion();
+		$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID ORDER BY ProductID LIMIT $dato1,$dato2";
+		
+		return mysqli_query($conexion,$sqlLIMIT);
+		
+		}
+		public function ordenarListaProductosPorCategoria($dato1,$dato2){
+
+			$c=new conectar();
+			$conexion=$c->conexion();
+			$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by category.Name LIMIT $dato1,$dato2";
 			return mysqli_query($conexion,$sqlLIMIT);
 			
 			}
-			public function ordenarListaProductosPorNombre(){
+			public function ordenarListaProductosPorNombre($dato1,$dato2){
 
 				$c=new conectar();
 				$conexion=$c->conexion();
-				$pagina =1;
-				$mostrar=10;
-				$numFilas =self::obtenerRegistrosTotalesProductos();
-				$totPaginas=$numFilas/$mostrar;
-				$inicioPaginas=($pagina - 1) * $totPaginas;
-				$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by product.Name LIMIT $inicioPaginas,$mostrar";
+				$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by product.Name LIMIT $dato1,$dato2";
 				return mysqli_query($conexion,$sqlLIMIT);
 				
 				}
-			public function ordenarListaProductosPorCoste(){
+			public function ordenarListaProductosPorCoste($dato1,$dato2){
 
 				$c=new conectar();
 				$conexion=$c->conexion();
-				$pagina =1;
-				$mostrar=10;
-				$numFilas =self::obtenerRegistrosTotalesProductos();
-				$totPaginas=$numFilas/$mostrar;
-				$inicioPaginas=($pagina - 1) * $totPaginas;
-				$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by product.Cost LIMIT $inicioPaginas,$mostrar";
+				$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by product.Cost LIMIT $dato1,$dato2";
 				return mysqli_query($conexion,$sqlLIMIT);
 				
 				}
-				public function ordenarListaProductosPorPrecio(){
+				public function ordenarListaProductosPorPrecio($dato1,$dato2){
 
 					$c=new conectar();
 					$conexion=$c->conexion();
-					$pagina =1;
-					$mostrar=10;
-					$numFilas =self::obtenerRegistrosTotalesProductos();
-					$totPaginas=$numFilas/$mostrar;
-					$inicioPaginas=($pagina - 1) * $totPaginas;
-					$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by product.Price LIMIT $inicioPaginas,$mostrar";
+					
+					$sqlLIMIT="SELECT * FROM category INNER JOIN product ON category.CategoryID = product.CategoryID order by product.Price LIMIT $dato1,$dato2";
 					return mysqli_query($conexion,$sqlLIMIT);
 					
 					}

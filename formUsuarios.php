@@ -1,22 +1,17 @@
 <?php  
+// CONEXION PARA OBETENER LOS REGISTROS DEL PRODUCTO A MODIFICAR
+require_once "conections/BaseDatos.php";
 
 // VARIABLE PASADA POR URL CON ID DEL PRODUCTO
 if(isset($_GET['upd'])) 
-$idArticulo=$_GET['upd'];
+$userId=$_GET['upd'];
 
 // VARIABLE PASADA POR URL CON LA ACCION CREAR-MODIF-ELIMINAR
 if(isset($_GET['accion']))
 $accion=$_GET['accion'];
 
-// CONEXION PARA OBETENER LOS REGISTROS DEL PRODUCTO A MODIFICAR
-require_once "conections/BaseDatos.php";
-$obje=new Productos();
-$result=$obje->mostrarProductoModificarEliminar($idArticulo);
-
-//CONEXION PARA OBTENER LOS OPTIONS DEL SELECT EN AMBOS FORMULARIOS
-
-$result1=($obje->mostrarOptionsSelect());
-$result2=($obje->mostrarOptionsSelect());
+$obje=new usuarios();
+$result=$obje->mostrarUsuarioModificarEliminar($userId);
 ?>
 
 
@@ -41,52 +36,46 @@ $result2=($obje->mostrarOptionsSelect());
    ?>
 
    
-  <div class="container" id="modificar-eliminar" >
+  <div class="container container-usuarios" id="modificar-eliminar" >
 		<div class="row">
 			<div class="col-lg-4"></div>
 			<div class="col-lg-4">
-				<div style="height: 200px" class="panel panel-primary">
-					<div class="panel panel-heading form-name-products"><?php echo "<h4> $accion articulo </h4>" ?></div>
+				<div style="height: 500px" class="panel panel-primary">
+					<div class="panel panel-heading form-name-products"><?php echo "<h4> $accion usuario</h4>" ?></div>
 					<div class="panel panel-body">
 					
-						<form class="cont-form" id="frmProducts">
+						<form class="cont-form" id="frmUser">
 							<label>Id</label>                          
-							<input  type="text" readonly class="form-control input-sm" name="idProducto" id="idProducto" value="<?php echo $ver[2] ?>">
-							<label>Categoria</label>
-							<!-- input donde se muestra la categoria del producto en la opcion eliminar-->
-			  <input style="display: none;" readonly type="text"class="form-control input-sm" name="categori" id="categori" value="<?php echo $ver[0] ?>" >
-			  <!-- Select con las options para modificar la categoria del producto -->
-			   <select id="selectEliminar" name='categoria' id='categoria'>         
-	            <?php
-				while($allOptions=mysqli_fetch_row(($result1)))
-              echo "<option value='$allOptions[1]'> $allOptions[0] </option>" ?>
-              </select>	
-			  <!-- Corregir el espacio que deja el select -->
-			  <?php  if($accion=='Modificar'){
-				  echo "<p></p>";
-			  }
-			  ?>	 
-			  <?php if($accion=='Modificar'){  echo "
-              <label style='margin-top: 10px;'>Nombre</label>
-							<input type='text'class='form-control input-sm' name='nombre' id='nombre' value='$ver[3]'>
-              <label>Coste</label>
-							<input type='email'class='form-control input-sm' name='coste' id='coste' value='$ver[4]'>
-              <label>Precio</label>
-							<input type='email' class='form-control input-sm' name='precio' id='precio' value='$ver[5]'>                 
-							<br>
-							";} else{ echo "
-			<label style='margin-top: 10px;'>Nombre</label>
-							<input readonly type='text'class='form-control input-sm' name='nombre' id='nombre' value=' $ver[3]' >
-			<label>Coste</label>
-							<input readonly type='email'class='form-control input-sm' name='coste' id='coste' value='$ver[4]' >
-			<label>Precio</label>
-							<input readonly type='email' class='form-control input-sm' name='precio' id='precio' value='$ver[5]'>                 
-							<br>
+							    <input  type="text" readonly class="form-control input-sm" name="idUsuario" value="<?php echo $ver[0] ?>">
+								<?php if($accion=='Modificar'){  echo "
+							<label>Nombre</label>
+			                    <input type='text'class='form-control input-sm' name='nombre' value='$ver[1]'>
+							<label>email</label>
+			                    <input type='email'class='form-control input-sm' name='email' value='$ver[2]'>
+							<label>Fecha</fecha>
+							    <input type='date' class='form-control input-sm' name='fecha' value='$ver[3]'>
+							<label>Enabled</label>
+							<div class=enabled>
+							    <label for='$ver[4]'>Registrado</label>
+							    <input type='radio' name='enabled' value='$ver[4]'>							   
+							</div>	
+ 
+								";} else{ echo "
+							<label>Nombre</label>
+								<input readonly type='text'class='form-control input-sm' name='nombre' value='$ver[1]' >
+							<label>email</label>
+								<input readonly type='email'class='form-control input-sm' name='email' value='$ver[2]' >
+							<label>Fecha</fecha>
+								<input readonly type='date' class='form-control input-sm' name='fecha' value='$ver[3]'>
+							<label>Enabled</label>
+								<intput readonly type='radio' class='form-control input-sm' name='enabled' value='$ver[4]'>	
 							";}?>     
+			
+						
 			<?php  if($accion == 'Modificar'){ echo"
-			<span class='btn btn-primary btn-sm btn-accion' id='confirmarCambios'>Modificar</span> 
+			<span class='btn btn-primary btn-sm btn-user' id='confCambiosUser'>Modificar</span> 
 			";}else{ echo "
-			<span class='btn btn-primary btn-sm btn-accion' id='confirmarEliminar'>Eliminar</span> 
+			<span class='btn btn-primary btn-sm btn-user' id='confEliminarUser'>Eliminar</span> 
 			";}?>
               <br>
               <br>
@@ -109,7 +98,7 @@ $result2=($obje->mostrarOptionsSelect());
 
 <!-- BLOQUE CON EL FORMULARIO CREAR  -->
 
-<div class="container" id="crearForm" >
+<!-- <div class="container" id="crearForm" >
 		<div class="row">
 			<div class="col-lg-4"></div>
 			<div class="col-lg-4">
@@ -117,7 +106,7 @@ $result2=($obje->mostrarOptionsSelect());
 					<div class="panel panel-heading form-name-products"><?php echo "<h4> $accion articulo </h4>" ?></div>
 					<div class="panel panel-body">
 					
-						<form class="cont-form" id="frmProductsCrear">
+						<form class="cont-form" id="frmUserCrear">
               <label>Categoria</label>
 			  <select name="categoriaCrear">         
 			  <?php while($allOptionscrear=mysqli_fetch_row(($result2)))
@@ -131,7 +120,7 @@ $result2=($obje->mostrarOptionsSelect());
               <label>Precio</label>
 							<input type="text"class="form-control input-sm" name="precioCrear" id="precioCrear" >
                      <br>     
-							<span class="btn btn-primary btn-sm btn-accion" id="confirmarCambiosCrear"><?php echo "<h5> $accion</h5>" ?></span>  
+							<span class="btn btn-primary btn-sm btn-accion" id="confCrearUser">Crear</span>  
               <br>
               <br>
 							<span class="btn btn-danger btn-sm btn-accion" onclick="location.href='views/articulos.php'"><?php echo "<h5> Volver</h5>" ?></span>  
@@ -143,8 +132,9 @@ $result2=($obje->mostrarOptionsSelect());
 			</div>
 			<div class="col-lg-4"></div>
 		</div>
-	</div> 
-
+	</div>  -->
+    <script  src="js/funciones.js"></script>
+    <script src="js/enviosPOST.js"></script>
 	
 
 	<!-- VENTANA MENSAGE OPERACION REALIZADA-->
@@ -154,10 +144,8 @@ $result2=($obje->mostrarOptionsSelect());
 		<span class="btn btn-danger btn-sm btn-accion" onclick="location.href='views/articulos.php'"><?php echo "<h5> Volver</h5>" ?></span>
 	</div>    
 
-
-
 <!-- MOSTRAR FORMULARIO A O B DEPENDIENDO DE LA ACCION A REALIZAR(CREAR-MODIF-ELIMINAR)-->
-    <script>
+<script>
       var modificarEliminar =document.getElementById('modificar-eliminar')
       var crear =document.getElementById('crearForm')
       var accion="<?php echo $accion; ?>"
@@ -171,16 +159,7 @@ $result2=($obje->mostrarOptionsSelect());
       }else{
       crear.style.display='none';
       }
+</script>
 
-	// ELIMINAR SELECT HTML DE CATEGORIA
-	var sectionCateg =document.getElementById('selectEliminar')
-	var mostrarInputCategoria = document.getElementById('categoria')
-	if('Eliminar'==accion){
-		sectionCateg.style.display='none'
-		mostrarInputCategoria.style.display='block'
-	}
-    </script>
-	<script  src="js/funciones.js"></script>
-	<script  src="js/enviosPOST.js"></script>
 </body>
 </html>

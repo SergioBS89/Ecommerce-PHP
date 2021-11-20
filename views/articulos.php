@@ -1,22 +1,12 @@
 <?php
 
 session_start();
+
+// varibles para conocer el rol (no cambiar de sitio)
 $rol=null;
 $roles =null;
 
-// VALIDACION DE USUARIO
-if($_SESSION['username']){}
-else{
-header("location:../index.php");
-}
-
-//VARIABLES CON LAS ACCIONES CREAR-MODIFICAR-ELIMINAR
-
-$crear="Crear";
-$modificar="Modificar";
-$eliminar="Eliminar";
-		   
-		
+	
 //CONEXION A LA BASE DE DATOS PARA CONOCER LOS USUARIOS SUPERADMIN
 
 require_once "../conections/BaseDatos.php";
@@ -27,6 +17,7 @@ while ($superAdmin=mysqli_fetch_row($super)){
 	$roles=2;
 	}
 }
+
 //CONDICIONAL PARA CREAR LA VARIABLE CON EL VALOR DE ROL
 
 if(isset($_SESSION['rol'])){
@@ -45,52 +36,59 @@ if($_SESSION['rol']==0){
 }
 }
 
+// CONDICIONAL PARA PASAR POR URL LA PAGINA ACTUAL DE LA PAGINACION
+If(!$_GET){
+	header('Location:articulos.php?pagina=1&opcionOrden=1');
+	}   
+		
+
+
 // ORDENAR LISTAS PRODUCTOS
-
-
 $obje=new Productos();
 $numFilas=$obje->obtenerRegistrosTotalesProductos();
-$result=($obje->ordenarListaProductosPorID());
+
+$mostrar=10;		
+$totPaginas=$numFilas/$mostrar;
+$inicioPaginas=($_GET['pagina']-1) * $mostrar;
+echo $totPaginas;
+$paginasOrden=($_GET['pagina']-1) * $mostrar;
+
+
+settype($inicioPaginas,"integer");
+settype($mostrar,"integer");
+
+$result=($obje->ordenarListaProductosPorID($inicioPaginas,$mostrar));
+
 
 // VARIABLE PASADA POR URL CON ID DEL PRODUCTO
+
 if(isset($_GET['opcionOrden'])) {
+
 $opcionOrdenar=$_GET['opcionOrden'];
 
-	$obje=new Productos();
-	$numFilas=$obje->obtenerRegistrosTotalesProductos();
     switch ($opcionOrdenar){
 		
 			case 1:
-			$result=($obje->ordenarListaProductosPorID());
+			$result=($obje->ordenarListaProductosPorID($inicioPaginas,$mostrar));
 			break;
 			case 2:
-			$result=($obje->ordenarListaProductosPorCategoria());
+			$result=($obje->ordenarListaProductosPorCategoria($inicioPaginas,$mostrar));
 			break;
 			case 3:
-			$result=($obje->ordenarListaProductosPorNombre());
+			$result=($obje->ordenarListaProductosPorNombre($inicioPaginas,$mostrar));
 			break;
 			case 4:
-			$result=($obje->ordenarListaProductosPorCoste());
+			$result=($obje->ordenarListaProductosPorCoste($inicioPaginas,$mostrar));
 			break;
 			case 5:
-			$result=($obje->ordenarListaProductosPorPrecio());
+			$result=($obje->ordenarListaProductosPorPrecio($inicioPaginas,$mostrar));
 			break;
 
 	}
 }
-
-
 	
-	$pagina =1;
-	$mostrar=10;
-	$totPaginas=$numFilas/$mostrar;
-	// $inicioPaginas=($pagina - 1) * $totPaginas;
-	?>
-
-
-			
-				 
-	
+	?>	
+				<!CODIGO HTML DE LA PAGINA ARTICULOS--  -->
 
 <html lang="en">
 <head>
@@ -107,13 +105,13 @@ $opcionOrdenar=$_GET['opcionOrden'];
     <!-- <?php echo "HOLAAAA $totPaginas and $rol"; ?>  -->
 
  <table class="table table-bordered table-active" style="text-align: center;">
-	<caption><label class="titulo-seccion">Articulos</label></caption>
+	<caption><label class="titulo-seccion">ARTICULOS</label></caption>
 	<tr>
-		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=1">Id</a></td>
-		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=2">Categoria</a></td>
-		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=3">Nombre</a></td>
-		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=4">Coste</a></td>
-		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=5">Precio</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=1&pagina=1">Id</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=2&pagina=1">Categoria</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=3&pagina=1">Nombre</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=4&pagina=1">Coste</a></td>
+		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=5&pagina=1">Precio</a></td>
 		<?php if($rol==2): ?>
 			<?php echo "
 		<td class='bg-primary centar-cabecera'> <h5>Editar</h5></td>
@@ -140,7 +138,7 @@ $opcionOrdenar=$_GET['opcionOrden'];
 				<?php echo"
 		<td  class='td-white editar'>
 			<span class='btn btn-warning btn-xs'>
-				<a style='color: white;' class='glyphicon glyphicon-pencil' href='../formArticulos.php?upd=$ver[2]&accion=$modificar'></a>
+				<a style='color: white;' class='glyphicon glyphicon-pencil' href='../formArticulos.php?upd=$ver[2]&accion=Modificar'></a>
 			</span>
 		</td>" ?>
 		<?php endif ?>
@@ -148,7 +146,7 @@ $opcionOrdenar=$_GET['opcionOrden'];
 			<?php echo "
 		<td class='td-white'>
 			<span  class='btn btn-danger btn-xs' >			
-				<a style='color: white;' class='glyphicon glyphicon-remove' href='../formArticulos.php?upd=$ver[2]&accion=$eliminar'></a>
+				<a style='color: white;' class='glyphicon glyphicon-remove' href='../formArticulos.php?upd=$ver[2]&accion=Eliminar'></a>
 			</span>
 		</td>" ?>
 		<?php endif ?>
@@ -159,20 +157,26 @@ $opcionOrdenar=$_GET['opcionOrden'];
 
 <nav aria-label="Page navigation example" style="text-align: center;">
   <ul class="pagination">
-    <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+    <li class="page-item  <?php echo $_GET['pagina'] <= 1 ? 'disabled' : ''?> ">
+		<a class="page-link" href="<?php echo 'articulos.php?pagina='. $_GET['pagina']-1 . '& opcionOrden=' . $_GET['opcionOrden']?>">Anterior</a>
+	</li>
 
 	<?php for($i=0;$i<$totPaginas;$i++): ?>
-	<li class="page-item"><a class="page-link" href="#"><?php echo "$i" + 1 ?></a></li>
+	<li class="page-item <?php echo $_GET['pagina'] == $i+1 ? 'active' : '' ?>">
+		<a class="page-link" href="<?php echo 'articulos.php?pagina='. $i+1 . '& opcionOrden=' . $_GET['opcionOrden']?>">
+		<?php echo "$i" + 1 ?>
+	</a>
+    </li>
     <?php endfor ?>
   
-    <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+    <li class="page-item <?php echo $_GET['pagina'] >= $totPaginas ? 'disabled' : ''?>">
+	<a class="page-link" href="<?php echo 'articulos.php?pagina='. $_GET['pagina']+1 . '& opcionOrden=' . $_GET['opcionOrden']?>">Siguiente</a></li>
   </ul>
 </nav> 
 <button type="button" class="btn botPosition btn-lg btn-danger" onclick="location.href='../acceso.php'">Volver</button>
 <?php if(($rol==2)||($rol==1)) echo "
 <button class='btn btn-lg btn-primary botCrear'><a href='../formArticulos.php?upd=1&accion=Crear'>Crear nuevo producto</a> </button>"
 ?>
-<script src="../funcion.js"></script>
 
 </body>
 
