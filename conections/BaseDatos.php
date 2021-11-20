@@ -144,18 +144,20 @@ class usuarios{
 			$conexion=$c->conexion();
 
 			$sql="DELETE from user
-					where UserID='$idusuario'";
+					where UserID='$idusuario[0]'";
 			return mysqli_query($conexion,$sql);
 		}
 		public function crearUsuario($datos){
 			$co=new conectar();
 			$conexion=$co->conexion();
 			$sql="INSERT into user (
+				                UserID,
 								FullName,
 								Email,
 								LastAccess,
 								Enabled)
-						values ('$datos[1]',
+						values ('$datos[0]',
+								'$datos[1]',
 								'$datos[2]',
 								'$datos[3]',
 								'$datos[4]')";
@@ -200,14 +202,16 @@ class usuarios{
 	public function crearProducto($datos){
 		$co=new conectar();
 		$conexion=$co->conexion();
-		$sql="INSERT into product (CategoryID,
+		$sql="INSERT into product (ProductID,
+		                    CategoryID,
 							Name,
 							Cost,
 							Price)
 					values ('$datos[0]',
 							'$datos[1]',
 							'$datos[2]',
-							'$datos[3]')";
+							'$datos[3]',
+							'$datos[4]')";
 		return mysqli_query($conexion,$sql);
 	}
 	public function eliminarProducto($datos){

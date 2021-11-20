@@ -1,5 +1,5 @@
 <?php 
-	require_once "conections/BaseDatos.php";
+	require_once "../conections/BaseDatos.php";
 
     // ARRAY DEL FORMULARIO MODIFICAR ARTICULOS
     $objeto=new Productos();
@@ -12,16 +12,6 @@
         $_POST['precio']  
     );
      $objeto->actualizarProducto($datos);
+     header("Location:../formArticulos.php?upd=$datos[0]&accion=modificado")
     
-    // ARRAY DEL FORMULARIO MODIFICAR USUARIOS
-    $obj=new usuarios();
-    $dato=array(
-        $_POST['idUsuario'],
-        $_POST['nombre'],
-        $_POST['email'],
-        $_POST['fecha'],
-        $_POST['enabled']
-    );
-     $obj->actualizarUsuario($dato);
-
 ?>

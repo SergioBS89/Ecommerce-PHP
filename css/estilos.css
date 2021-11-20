@@ -132,13 +132,11 @@ padding: 6px;
 .btn-accion h5{
     margin: 0;
 }
-.centrar-cabecera{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+
 .td-articulos{
     position: relative;
+    height: 60px;
+    margin-top: 20px;
 }
 .td-articulos a{
     color: white;
@@ -147,8 +145,19 @@ padding: 6px;
     position: absolute;
     bottom: 33%;
     transform: translateX(-50%) ;
- 
-    
+}
+.header-mof-eli{
+    position: relative;
+    height: 60px;
+    margin-top: 20px;
+}
+.header-mof-eli a{
+    color: white;
+    text-decoration: none;
+    cursor:default;
+    position: absolute;
+    bottom: 33%;
+    transform: translateX(-50%) ;
 }
 
 .container-mensage{
@@ -177,9 +186,9 @@ margin-top: 20px;
 }
 .enabled{
     display: flex;
-    align-items: center;
-    background-color: red;
+    align-items: flex-start;
     font-size: small;
+    color: rgb(82, 82, 83);
 }
 
 .botonOculto{

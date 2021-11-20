@@ -2,8 +2,9 @@
 session_start();
 $rol=null;
 $roles =null;
+
 //Validacion de usuario
-if($_SESSION['username']){}
+if(($_SESSION['username'])&&($_SESSION['email'])){}
 else{
 	header("location:index.php");
 }
@@ -55,18 +56,11 @@ require_once "conections/BaseDatos.php";
 
 <?php
 if(($rol!=1) && ($rol!=0)): ?>
-    <?php echo "<button type='button' class=' btn btn-primary bot-acces' id='locationUsuarios'>Usuarios</button>" ?>
+    <button type="button" onclick="location.href='views/usuarios.php'" class="btn btn-primary bot-acces botonOculto <?php echo "botonVisto";?>">Usuarios</button>
 <?php endif ?>
-<button type="button" class="btn btn-danger botBack" onclick="location.href='exit.php'">Volver</button>
+<button type="button" class="btn btn-danger botBack" onclick="location.href='validation/exit.php'">Volver</button>
 
 
 </div>
-<!-- ACCEDER A LA SECCION USUARIOS  -->
-<script>
-   var locationUsuariosPhp= document.getElementById('locationUsuarios')
-   locationUsuariosPhp.addEventListener('click',()=>{
-       location.href='views/usuarios.php'
-   })
-</script>
 </body>
 </html>

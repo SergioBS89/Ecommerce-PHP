@@ -6,7 +6,13 @@ session_start();
 $rol=null;
 $roles =null;
 
-	
+
+//Validacion de usuario
+if(($_SESSION['username'])&&($_SESSION['email'])){}
+else{
+	header("../location:index.php");
+}
+
 //CONEXION A LA BASE DE DATOS PARA CONOCER LOS USUARIOS SUPERADMIN
 
 require_once "../conections/BaseDatos.php";
@@ -28,7 +34,6 @@ $rol=2;
 }else{
 if($_SESSION['rol']==0){
 	$rol =0;
-	
 }else{
 	$rol=1;
 
@@ -50,7 +55,7 @@ $numFilas=$obje->obtenerRegistrosTotalesProductos();
 $mostrar=10;		
 $totPaginas=$numFilas/$mostrar;
 $inicioPaginas=($_GET['pagina']-1) * $mostrar;
-echo $totPaginas;
+
 $paginasOrden=($_GET['pagina']-1) * $mostrar;
 
 
@@ -96,30 +101,23 @@ $opcionOrdenar=$_GET['opcionOrden'];
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../libraries/bootstrap/css/bootstrap.css">
-	
-	<script src="../libraries/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" href="../css/estilos.css"> 
     <title>Document</title>
 </head>
 <body>
-    <!-- <?php echo "HOLAAAA $totPaginas and $rol"; ?>  -->
+  
 
  <table class="table table-bordered table-active" style="text-align: center;">
 	<caption><label class="titulo-seccion">ARTICULOS</label></caption>
 	<tr>
 		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=1&pagina=1">Id</a></td>
 		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=2&pagina=1">Categoria</a></td>
-		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=3&pagina=1">Nombre</a></td>
+		<td style="width: 400px;" class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=3&pagina=1">Nombre</a></td>
 		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=4&pagina=1">Coste</a></td>
 		<td class="bg-primary td-articulos"><a href="articulos.php?opcionOrden=5&pagina=1">Precio</a></td>
 		<?php if($rol==2): ?>
-			<?php echo "
-		<td class='bg-primary centar-cabecera'> <h5>Editar</h5></td>
-		"?>
-		<?php endif ?>
-		<?php if($rol ==2): ?>
-			<?php echo"
-	    <td class='bg-primary centrar-cabecera'> <h5>Eliminar</h5></td>"?>
+		<td class='bg-primary header-mof-eli'><a href="">Modificar</a> </td>
+	    <td class='bg-primary header-mof-eli'><a href="">Eliminar</a> </td>
 		<?php endif ?>
 	</tr>
     <?php
@@ -136,8 +134,8 @@ $opcionOrdenar=$_GET['opcionOrden'];
 		<td  class="td-white"><?php echo $ver[5] ?></td>
 		<?php if($rol ==2): ?>
 				<?php echo"
-		<td  class='td-white editar'>
-			<span class='btn btn-warning btn-xs'>
+		<td  class='td-white'>
+			<span class='btn btn-warning btn-xs  centrar-icono'>
 				<a style='color: white;' class='glyphicon glyphicon-pencil' href='../formArticulos.php?upd=$ver[2]&accion=Modificar'></a>
 			</span>
 		</td>" ?>
@@ -145,7 +143,7 @@ $opcionOrdenar=$_GET['opcionOrden'];
 		<?php if($rol==2): ?>
 			<?php echo "
 		<td class='td-white'>
-			<span  class='btn btn-danger btn-xs' >			
+			<span  class='btn btn-danger btn-xs  centrar-icono' >			
 				<a style='color: white;' class='glyphicon glyphicon-remove' href='../formArticulos.php?upd=$ver[2]&accion=Eliminar'></a>
 			</span>
 		</td>" ?>
@@ -177,10 +175,7 @@ $opcionOrdenar=$_GET['opcionOrden'];
 <?php if(($rol==2)||($rol==1)) echo "
 <button class='btn btn-lg btn-primary botCrear'><a href='../formArticulos.php?upd=1&accion=Crear'>Crear nuevo producto</a> </button>"
 ?>
-
 </body>
-
-
 </html> 
 
 

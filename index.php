@@ -22,7 +22,7 @@ $nombreUsuario=$_GET['usuario'];
 					<div class="panel panel-heading">Gestión de Comercio</div>
 					<div class="panel panel-body">
 					
-						<form method="post" action="login.php">
+						<form method="post" action="EnviosPOST/login.php">
 							<label>Usuario</label>                          
 							<input type="text" class="form-control input-sm" name="usuario" required>
 							<label style="margin-top: 5px;">Email</label>
@@ -35,7 +35,7 @@ $nombreUsuario=$_GET['usuario'];
                             <div class='contSA'> <h4>Ingrese un usuario valido</h4></div>    
                             ";}}?>
                             <?php if(isset($_GET['conectado']))if($_GET['conectado']==1):     ?>
-                            <button type='button' onclick="location.href='acceso.php'" class='btn btn-danger btn-sm botonOculto <?php echo "botonVisto";?>'>Continuar</button>
+                            <button type='button' onclick="location.href='acceso.php'" class='btn btn-danger btn-sm'>Continuar</button>
                             <?php endif ?>
                             </form>
 					</div>
@@ -48,40 +48,5 @@ $nombreUsuario=$_GET['usuario'];
     
 </body>
 
-<!-- <script>
-    $(document).ready(function(){
 
-        $('#entrarSistema').click(function(){
-
-            vacios=validarFormVacio('frmLogin');
-
-if(vacios > 0){
-    alert("Debes llenar todos los campos!!");
-    return false;
-}
-
-
-datos=$('#frmLogin').serialize();
-
-$.ajax({
-    type:"POST",
-    data:datos,
-    url:"login.php",
-    success:function(r){
-
-        if(r==1){
-            var saludo = document.getElementById('usuario').value;
-            document.getElementById('saludo').innerHTML='Bienvenido ' + saludo;
-            document.getElementById('adelante').style.display='block'          
-        }
-        else{
-            alert("No se ha podido acceder")
-        }
-    }
-   
-});
-
-});
-    })
-</script>  -->
 </html>

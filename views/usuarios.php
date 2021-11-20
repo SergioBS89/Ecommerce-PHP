@@ -2,11 +2,25 @@
 session_start();
 
 //Validacion de usuario
-if($_SESSION['username']){}
+if(($_SESSION['username'])&&($_SESSION['email'])){}
 else{
-	header("location:../index.php");
+	header("../location:index.php");
 }
-require_once  "../conections/BaseDatos.php";
+
+require_once "../conections/BaseDatos.php";
+$objet=new usuarios();
+$super=($objet->superAdmin());
+while ($superAdmin=mysqli_fetch_row($super)){
+	if($superAdmin[0] == $_SESSION['username']){
+	$roles=2;
+	}
+	else{
+		header('Location:../index.php');
+	}
+}
+
+
+
 $obj = new usuarios();
 
 //FUNCION PARA CONOCER EL NOMBRE DE LOS SUPERADMIN
@@ -56,7 +70,7 @@ if(isset($_GET['opcionOrden'])) {
 		}
 	}
 
-// $result = ($obj->ordenarListaUsuariosPorID(0,5));
+
 
 
  ?>
@@ -79,11 +93,11 @@ if(isset($_GET['opcionOrden'])) {
 	<tr>
 		<td class="bg-primary td-articulos"><a href="usuarios.php?opcionOrden=1&pagina=1">Id</a></td>
 		<td class="bg-primary td-articulos"><a href="usuarios.php?opcionOrden=2&pagina=1">Nombre</a></td>
-		<td class="bg-primary td-articulos"><a href="usuarios.php?opcionOrden=3&pagina=1">Email</a></td>
+		<td style="width: 400px;" class="bg-primary td-articulos"><a href="usuarios.php?opcionOrden=3&pagina=1">Email</a></td>
 		<td class="bg-primary td-articulos"><a href="usuarios.php?opcionOrden=4&pagina=1">Último acceso</a></td>
 		<td class="bg-primary td-articulos"><a href="usuarios.php?opcionOrden=5&pagina=1">Enabled</a></td>
-		<td class='bg-primary centar-cabecera'> <h5>Editar</h5></td>
-	    <td class='bg-primary centrar-cabecera'> <h5>Eliminar</h5></td>
+		<td class='bg-primary header-mof-eli'><a href="">Modificar</a> </td>
+	    <td class='bg-primary header-mof-eli'><a href="">Eliminar</a> </td>
 	</tr>
     <?php
   
@@ -99,11 +113,21 @@ if(isset($_GET['opcionOrden'])) {
             
         if($superAdmin[0]==$ver[2]){
             echo"
-        <td class='td-white adminRed'>$ver[0]</td>
-		<td class='td-white adminRed'> $ver[2]</td>
-		<td class='td-white adminRed'> $ver[1]</td>
-		<td class='td-white adminRed'> $ver[3]</td>
-		<td class='td-white adminRed'>$ver[4]</td>";}
+        <td  class='td-white adminRed'>$ver[0]</td>
+		<td  class='td-white adminRed'> $ver[2]</td>
+		<td  class='td-white adminRed'> $ver[1]</td>
+		<td  class='td-white adminRed'> $ver[3]</td>
+		<td  class='td-white adminRed'>$ver[4]</td>
+		<td  class='td-white editar'>
+		<span class='btn btn-warning btn-xs'>
+			<a style='color: white;' class='glyphicon glyphicon-pencil' href=''></a>
+		</span>
+	</td >
+	<td class='td-white eliminar'>
+		<span  class='btn btn-danger btn-xs' >			
+			<a style='color: white;' class='glyphicon glyphicon-remove' href=''></a>
+		</span>
+	</td>";}
         else{
             echo "
         <td class='td-white'>$ver[0]</td>
@@ -111,18 +135,19 @@ if(isset($_GET['opcionOrden'])) {
 		<td class='td-white'>$ver[1]</td>
 		<td class='td-white'>$ver[3]</td>
 		<td class='td-white'>$ver[4]</td>
+		<td class='td-white editar'>
+		<span class='btn btn-warning btn-xs'>
+			<a style='color: white;' class='glyphicon glyphicon-pencil' href='../formUsuarios.php?upd=$ver[0]&accion=Modificar'></a>
+		</span>
+	</td >
+	<td class='td-white eliminar'>
+		<span  class='btn btn-danger btn-xs' >			
+			<a style='color: white;' class='glyphicon glyphicon-remove' href='../formUsuarios.php?upd=$ver[0]&accion=Eliminar'></a>
+		</span>
+	</td>
 	";}}?>
         
-        <td class='td-white editar'>
-			<span class='btn btn-warning btn-xs'>
-				<a style='color: white;' class='glyphicon glyphicon-pencil' href='../formUsuarios.php?upd=<?php echo "$ver[0]"?> &accion=Modificar'></a>
-			</span>
-		</td >
-        <td class='td-white eliminar'>
-			<span  class='btn btn-danger btn-xs' >			
-				<a style='color: white;' class='glyphicon glyphicon-remove' href='../formUsuarios.php?upd=<?php echo "$ver[0]"?> &accion=Eliminar'></a>
-			</span>
-		</td>
+      
 	
 	</tr>
     <?php endwhile; 
@@ -150,7 +175,7 @@ if(isset($_GET['opcionOrden'])) {
 </nav> 
 <button type="button" class="btn botPosition btn-lg btn-danger" onclick="location.href='../acceso.php'">Volver</button>
 
-<button class='btn btn-lg btn-primary botCrear'><a href='../formArticulos.php?accion=Crear'>Crear nuevo usuario</a> </button>
+<button class='btn btn-lg btn-primary botCrear'><a href='../formUsuarios.php?upd=1&accion=Crear'>Crear nuevo usuario</a> </button>
 
 
 </body>
