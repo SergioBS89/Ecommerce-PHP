@@ -93,7 +93,7 @@ $opcionOrdenar=$_GET['opcionOrden'];
 }
 	
 	?>	
-				<!CODIGO HTML DE LA PAGINA ARTICULOS--  -->
+				<!--CODIGO HTML DE LA PAGINA ARTICULOS -->
 
 <html lang="en">
 <head>
