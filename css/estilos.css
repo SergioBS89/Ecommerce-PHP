@@ -1,3 +1,26 @@
+ /* GENERAL */
+
+ body{
+    position: relative;
+    margin-top: 70px;
+    background: #FFA17F;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #00223E, #FFA17F);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.btn:hover{
+    background-color: rgb(65, 62, 62);
+}
+ /*ESTILOS INDEX.PHP*/
+
+ .mensajeLogin{
+    width: auto;
+    height: auto;
+    color: black;
+    margin: 20px;
+    font-size: 20px;
+} 
+/* ESTILOS ACCESO.PHP */ 
+ 
  .container-acceso{
     width: 50%;
     height: 70%;
@@ -9,26 +32,6 @@
     border-radius: 3px;
     border: 1px solid rgb(13, 82, 173);
 }
-
-.bot-acces{
-    width: 200px;
-    height: auto;
-    padding: 20px;
-    font-size: 30px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-
-}
-
-body{
-    position: relative;
-    margin-top: 70px;
-    background: #FFA17F;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #00223E, #FFA17F);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-}
-
 .header-name{
     position: absolute;
     top: 0;
@@ -40,11 +43,21 @@ background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, F
     padding: 10px;
     color: white;
 }
-.ventana-saludo{
-    position: relative;
-    height: 35%;
+.bot-acces{
+    width: 200px;
+    height: auto;
+    padding: 20px;
+    font-size: 30px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 }
-/* BOTONES VENTANAS */
+.botonOculto{
+    display: none;
+}
+.botonVisto{
+    display: block;
+}
 .botBack{
     position: absolute;
     border-radius: 3px;
@@ -55,43 +68,12 @@ background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, F
     cursor: pointer;
 }
 
-.continuar{
-    color: white;
-    font-size: 13px;
-    position: absolute;
-    right: 50%;
-    transform: translateX(50%); 
-    background-color: rgb(29, 29, 29);
-    padding: 8px;
-    border-radius: 3px;
-    margin-top: 30px;
-   
-}
-.continuar:hover{
-    text-decoration: none;
-    background-color: rgb(65, 62, 62);
-    color: white;
-}
-.btn:hover{
-    background-color: rgb(65, 62, 62);
-}
-.td-white{
-    background-color: white;
-}
+/* ESTILOS DE ARTICULOS.PHP Y USUARIOS.PHP*/
 .titulo-seccion{
     color: white;
     margin-left: 3%;
     font-size: 30px;
 }
-
-.contSA{
-    width: auto;
-    height: auto;
-    color: black;
-    margin: 20px;
-    font-size: 20px;
-} 
-
 .botPosition{
     position: absolute;
     left: 50px;
@@ -106,33 +88,22 @@ background: linear-gradient(to right, #00223E, #FFA17F); /* W3C, IE 10+/ Edge, F
     color: white;
     text-decoration: none;
 }
-
-
-.cont-form input{
-    width: 80%;
-    
+.td-white{
+    background-color: white;
 }
-.cont-form label{
-margin-top: 10px;
+.header-modi-eli{
+    position: relative;
+    height: 60px;
+    margin-top: 20px;
 }
-
-.form-name-products{
-margin-bottom: 0;
-padding: 6px;
+.header-modi-eli a{
+    color: white;
+    text-decoration: none;
+    cursor:default;
+    position: absolute;
+    bottom: 33%;
+    transform: translateX(-50%) ;
 }
-.btn-accion{
-    padding: 10px;
-    margin: 0;
-}
-.btn-user{
-    padding: 10px;
-    margin-top: 30px;
-}
-
-.btn-accion h5{
-    margin: 0;
-}
-
 .td-articulos{
     position: relative;
     height: 60px;
@@ -146,44 +117,53 @@ padding: 6px;
     bottom: 33%;
     transform: translateX(-50%) ;
 }
-.header-mof-eli{
-    position: relative;
-    height: 60px;
-    margin-top: 20px;
-}
-.header-mof-eli a{
-    color: white;
-    text-decoration: none;
-    cursor:default;
-    position: absolute;
-    bottom: 33%;
-    transform: translateX(-50%) ;
-}
-
-.container-mensage{
- width: 30%;
- height: 150px;
- position: absolute;
- background-color: white;
- border-radius: 3px;
- left: 50%;
- transform: translateX(-50%);
-
-}
-.container-mensage span{
-position: absolute;
-transform: translateX(-50%);
-left: 50%;
-margin-top: 20px;
-}
-
-.disabled {
-    pointer-events:none; /*This makes it not clickable */
-    opacity:0.6;         /*This grays it out to look disabled*/
-}
 .adminRed{
     color: red;
 }
+.disabled {
+    pointer-events:none;
+    opacity:0.6;         
+}
+
+/* ESTILOS FORMUSUARIOS.PHP Y FORMARTICULOS.PHP */
+
+.cont-form input{
+    width: 80%;    
+}
+.cont-form label{
+margin-top: 10px;
+}
+.btn-accion{
+    padding: 10px;
+    margin: 0;
+}
+.btn-accion h5{
+    margin: 0;
+}
+.container-mensage{
+    width: 30%;
+    height: 150px;
+    position: absolute;
+    background-color: white;
+    border-radius: 3px;
+    left: 50%;
+    transform: translateX(-50%);   
+   }
+.container-mensage span{
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    margin-top: 20px;
+    }
+.form-name-position{
+    margin-bottom: 0;
+    padding: 6px;
+    }
+.btn-user{
+    padding: 10px;
+    margin-top: 30px;
+}
+
 .enabled{
     display: flex;
     align-items: flex-start;
@@ -191,9 +171,45 @@ margin-top: 20px;
     color: rgb(82, 82, 83);
 }
 
-.botonOculto{
-    display: none;
-}
-.botonVisto{
-    display: block;
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

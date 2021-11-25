@@ -2,14 +2,16 @@
 session_start();
 require_once "../conections/BaseDatos.php";
 
+$obj=new usuarios();
 
+//Array que recoge los datos enviados por POST
+$dato=array(
+    $_POST['idUsuario']
+);
 
-//ARRAY DEL FORMULARIO ELIMINAR USUARIO
-    $obj=new usuarios();
-    $dato=array(
-        $_POST['idUsuario']
-    );
-     $obj->eliminarUsuario($dato);
+//Llamo a la funcion para eliminar el producto
+$obj->eliminarUsuario($dato);
 
-     header("Location:../formUsuarios.php?upd=$dato[0]&accion=eliminado")
+// Mando de vuelta con el metodo get las varibales upd con el id del usuario y la accion 'eliminado'
+header("Location:../formUsuarios.php?upd=$dato[0]&accion=eliminado");
 ?>
